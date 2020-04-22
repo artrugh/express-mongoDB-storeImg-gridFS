@@ -16,40 +16,43 @@
 </head>
 
 <body>
-  <div class="container">
+  <div class="container" style="max-width: 100vw; margin: 0">
     <div class="row">
-      <div class="col-md-6 m-auto">
+      <div class="col-md-6 m-auto" style="flex: 0 0 100%; max-width: 100%;">
         <h1 class="text-center display-4 my-4">Mongo File Uploads</h1>
-        
+
         <form action="/upload" method="POST" enctype="multipart/form-data">
           <div class="custom-file mb-3">
 
-              <input type="file" name="file" id="file" class="custom-file-input">
-              <label for="file" class="custom-file-label">Choose File</label>
+            <input type="file" name="file" id="file" class="custom-file-input">
+            <label for="file" class="custom-file-label">Choose File</label>
 
-              <!-- <input type="password" name="password" id="password" class="form-control" placeholder="password"> -->
+            <!-- <input type="password" name="password" id="password" class="form-control" placeholder="password"> -->
 
           </div>
-          <input type="submit" value="Submit" class="btn btn-primary btn-block" style = "margin-top: 20px">
+          <input type="submit" value="Submit" class="btn btn-primary btn-block" style="margin-top: 20px">
         </form>
         <hr>
-        <% if(files){ %>
-        <% files.forEach(function(file) { %>
-        <div class="card card-body mb-3">
-          <% if(file.isImage) { %>
-          <img src="image/<%= file.filename %>" alt="">
+        <div class="card-group">
+
+          <% if(files){ %>
+          <% files.forEach(function(file) { %>
+          <div class="card card-body mb-3" style="min-width: 200px">
+            <% if(file.isImage) { %>
+            <img src="image/<%= file.filename %>" alt="">
+            <% } else { %>
+            <a href="/files/<%= file.filename %>" target="_blank"><%= file.filename %></a>
+            <% } %>
+            <form method="POST" action="/files/<%= file._id %>?_method=DELETE">
+              <!-- <input type="password" name="password" id="password" class="form-control" placeholder="password"> -->
+              <button class="btn btn-danger btn-block mt-4">Delete</button>
+            </form>
+          </div>
+          <% }) %>
           <% } else { %>
-          <a href="/files/<%= file.filename %>" target="_blank"><%= file.filename %></a>
+          <p>No files to show</p>
           <% } %>
-          <form method="POST" action="/files/<%= file._id %>?_method=DELETE">
-            <!-- <input type="password" name="password" id="password" class="form-control" placeholder="password"> -->
-            <button class="btn btn-danger btn-block mt-4">Delete</button>
-          </form>
         </div>
-        <% }) %>
-        <% } else { %>
-        <p>No files to show</p>
-        <% } %>
       </div>
     </div>
   </div>

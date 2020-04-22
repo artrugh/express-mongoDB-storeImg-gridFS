@@ -55,7 +55,6 @@ const storage = new GridFsStorage({
     url: mongoURI,
     file: (req, file) => {
         console.log(file);
-
         return new Promise((resolve, reject) => {
             // is used to generate names
             crypto.randomBytes(16, (err, buf) => {
@@ -152,7 +151,7 @@ app.get('/image/:filename', (req, res) => {
         }
 
         // Check if image
-        if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
+        if (file.contentType === 'image/jpeg' || file.contentType === 'image/png' || file.contentType === 'video/mp4') {
             // Read output to browser
             const readstream = gfs.createReadStream(file.filename);
             readstream.pipe(res);
